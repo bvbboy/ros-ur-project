@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!-- xacro for extras components mounted on the manipulator -->
+
+<robot name="extras" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="extras" params="prefix joint_limited">
+  
+    <link name="${prefix}ground_base">
+      <visual>
+        <geometry>
+          <box size="1.4 1.4 0.001"/>
+        </geometry>
+        <origin xyz="0 0 0.0005" rpy="0 0 0"/>
+        <material name="white">
+          <color rgba="${0/255} ${0/255} ${255/255} 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="1.4 1.4 0.001"/>
+        </geometry>
+        <origin xyz="0 0 0.0005" rpy="0 0 0"/>
+      </collision>
+      <!--xacro:default_inertial mass="20"/-->
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="100"/>
+        <inertia ixx="1"  ixy="0"  ixz="0" iyy="1" iyz="0" izz="1" />
+      </inertial>
+    </link>
+
+    <!-- ROS base_link to UR 'Base' Coordinates transform -->
+    <joint name="${prefix}base_table_joint" type="fixed">
+      <origin xyz="0 0 0.001" rpy="0 0 0"/>
+      <parent link="${prefix}ground_base"/>
+      <child link="${prefix}base_link"/>
+    </joint>
+    
+  </xacro:macro>
+</robot>

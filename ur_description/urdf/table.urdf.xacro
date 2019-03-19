@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+       xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="table">
+  <link name="table_ground">
+    <visual>
+      <geometry>
+        <box size="2.0 1.0 0.01"/>
+      </geometry>
+      <origin xyz="0.75 0 0.005" rpy="0 0 0"/>
+      <material name="white">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="2.0 1.0 0.01"/>
+      </geometry>
+      <origin xyz="0.75 0 0.005" rpy="0 0 0"/>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="100"/>
+      <inertia ixx="1"  ixy="0"  ixz="0" iyy="1" iyz="0" izz="1" />
+    </inertial>
+  </link>
+
+  <link name="$(arg prefix_robot1)table_platform">
+    <visual>
+      <geometry>
+        <box size="0.2 0.2 0.68"/>
+      </geometry>
+      <origin xyz="0 0 0.34" rpy="0 0 0"/>
+      <material name="steel">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.2 0.2 0.68"/>
+      </geometry>
+      <origin xyz="0 0 0.34" rpy="0 0 0"/>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="50"/>
+      <inertia ixx="1"  ixy="0"  ixz="0" iyy="1" iyz="0" izz="1" />
+    </inertial>
+  </link>
+
+  <joint name="$(arg prefix_robot1)table_ground_to_platform" type="fixed">
+    <parent link="table_ground"/>
+    <child link="$(arg prefix_robot1)table_platform"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="$(arg prefix_robot2)table_platform">
+    <visual>
+      <geometry>
+        <box size="0.2 0.2 0.68"/>
+      </geometry>
+      <origin xyz="0 0 0.34" rpy="0 0 0"/>
+      <material name="steel">
+        <color rgba="0.4 0.4 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.2 0.2 0.68"/>
+      </geometry>
+      <origin xyz="0 0 0.34" rpy="0 0 0"/>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="50"/>
+      <inertia ixx="1"  ixy="0"  ixz="0" iyy="1" iyz="0" izz="1" />
+    </inertial>
+  </link>
+
+  <joint name="$(arg prefix_robot2)table_ground_to_platform" type="fixed">
+    <parent link="table_ground"/>
+    <child link="$(arg prefix_robot2)table_platform"/>
+    <origin xyz="1.50 0 0.0" rpy="0 0 0"/>
+  </joint>
+
+  </xacro:macro>
+
+</robot>

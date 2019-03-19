@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: ur_description
+    relative_path: urdf/dual_ur10_robot.urdf
+  SRDF:
+    relative_path: config/dual_ur10_robot.srdf
+  CONFIG:
+    author_name: guangyu
+    author_email: wuguangyu@sjtu.edu.cn
+    generated_timestamp: 1526736832

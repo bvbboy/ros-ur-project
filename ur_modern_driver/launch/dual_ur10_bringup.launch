@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!--
+  Universal robot ur10 launch.  Loads ur10 robot description (see ur_common.launch
+  for more info)
+
+  Usage:
+    ur10_bringup.launch robot_ip:=<value>
+-->
+<launch>
+  <arg name="ip_robot1" default="192.168.7.9"/>
+  <arg name="ip_robot2" default="192.168.7.8"/>
+  <arg name="limited_robot1" default="false"/>
+  <arg name="limited_robot2" default="false"/>
+  <arg name="min_payload_robot1"  default="0.0"/>
+  <arg name="max_payload_robot1"  default="10.0"/>
+  <arg name="min_payload_robot2"  default="0.0"/>
+  <arg name="max_payload_robot2"  default="10.0"/>
+  <arg name="prefix_robot1" default="robot1_" />
+  <arg name="prefix_robot2" default="robot2_" />
+  <arg name="controller_name_robot1" default="robot1"/>
+  <arg name="controller_name_robot2" default="robot2"/>
+
+  <!-- dual_arm_robot model -->
+  <include file="$(find ur_description)/launch/dual_ur10_upload.launch">
+    <arg name="limited_robot1" value="$(arg limited_robot1)"/>
+    <arg name="prefix_robot1" value="$(arg prefix_robot1)"/>
+    <arg name="limited_robot2" value="$(arg limited_robot2)"/>
+    <arg name="prefix_robot2" value="$(arg prefix_robot2)"/>
+  </include>
+
+  <!-- ur10_robot1 common -->
+  <group ns="$(arg controller_name_robot1)">
+    <remap from="joint_states" to="/joint_states"/>
+    <include file="$(find ur_modern_driver)/launch/ur_common.launch">
+      <arg name="prefix" value="$(arg prefix_robot1)"/>
+      <arg name="robot_ip" value="$(arg ip_robot1)"/>
+      <arg name="min_payload"  value="$(arg min_payload_robot1)"/>
+      <arg name="max_payload"  value="$(arg max_payload_robot1)"/>
+    </include>    
+  </group>
+
+  <!-- ur10_robot2 common -->
+  <group ns="$(arg controller_name_robot2)">
+    <param name="ur_driver/reverse_port" type="int" value="50002"/>
+    <remap from="joint_states" to="/joint_states"/>
+    <include file="$(find ur_modern_driver)/launch/ur_common.launch">
+      <arg name="prefix" value="$(arg prefix_robot2)"/>
+      <arg name="robot_ip" value="$(arg ip_robot2)"/>
+      <arg name="min_payload"  value="$(arg min_payload_robot2)"/>
+      <arg name="max_payload"  value="$(arg max_payload_robot2)"/>
+    </include>
+  </group>
+
+</launch>

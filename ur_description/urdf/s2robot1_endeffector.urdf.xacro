@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+       xmlns:xacro="http://ros.org/wiki/xacro">
+<xacro:property name="M_PI" value="3.1415926535897931"/>
+
+  <xacro:macro name="robot1_endeffector" params="prefix">
+  <link name="${prefix}rg2_body_link">
+    <visual>
+      <origin rpy="0 1.5707963268 0" xyz="0.051 0.0085 0.0015"/>
+      <!-- <origin rpy="0 1.5707963268 1.5707963268" xyz="0.012 0.0 0.0"/> -->
+      <geometry>
+        <mesh filename="package://ur5_rg2_description/meshes/rg2_gripper/dae_rg2_.dae" scale="0.001 0.001 0.001"/>
+        <!-- <mesh filename="package://ur5_rg2_description/meshes/rg2_gripper/zuhejiaju.stl" scale="0.001 0.001 0.001"/> -->
+      </geometry>
+      <material name="white">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 1.5707963268 0" xyz="0.051 0.0085 0.0015"/>
+      <!-- <origin rpy="0 1.5707963268 1.5707963268" xyz="0.012 0.0 0.0"/> -->
+      <geometry>
+        <mesh filename="package://ur5_rg2_description/meshes/rg2_gripper/dae_rg2_.dae" scale="0.001 0.001 0.001"/>
+        <!-- <mesh filename="package://ur5_rg2_description/meshes/rg2_gripper/zuhejiaju.stl" scale="0.001 0.001 0.001"/> -->
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
+    </inertial>
+  </link>
+
+
+    <joint name="rg2_eef_joint" type="fixed">
+      <origin rpy="0 0 0" xyz="0.195 0.0 0.0"/>
+      <parent link="${prefix}rg2_body_link"/>
+      <child link="${prefix}rg2_eef_link"/>
+    </joint>
+    <link name="${prefix}rg2_eef_link"/>
+
+    <joint name="board_rg2_joint" type="fixed">
+      <origin rpy="${M_PI/2} 0 ${M_PI/2}" xyz="0 0.0 0.0"/>
+      <parent link="${prefix}rg2_body_link"/>
+      <child link="board_link"/>
+    </joint>
+    <link name="board_link">
+      <visual>
+      <geometry>
+        <box size="0.1 0.04 0.001"/>
+      </geometry>
+      <origin xyz="0.05 0 0.0005" rpy="0 0 0"/>
+      <material name="white">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+      </visual>
+      <collision>
+      <geometry>
+        <box size="0.1 0.04 0.001"/>
+      </geometry>
+      <origin xyz="0.05 0 0.0005" rpy="0 0 0"/>
+      </collision>
+      <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.1"/>
+      <inertia ixx="1"  ixy="0"  ixz="0" iyy="1" iyz="0" izz="1" />
+      </inertial>
+    </link>
+
+    <!-- camera link -->
+    <joint name="camera_rg2_joint" type="fixed">
+      <origin rpy="0 0 0" xyz="0 0.1 0.0"/>
+      <parent link="${prefix}rg2_body_link"/>
+      <child link="${prefix}camera_link"/>
+    </joint>
+    <link name="${prefix}camera_link">
+      <visual>
+        <geometry>
+          <cylinder length="0.05" radius="0.08"/>
+        </geometry>
+        <origin rpy="0 ${M_PI/2} 0" xyz="0.0 0.0 0.0"/>
+        <material name="White">
+          <color rgba="${150/255} ${150/255} ${150/255} 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder length="0.05" radius="0.08"/>
+        </geometry>
+        <origin rpy="0 ${M_PI/2} 0" xyz="0.0 0.0 0.0"/>
+      </collision>
+      <inertial>
+        <mass value="0.6"/>
+        <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
+      </inertial>
+    </link>
+
+    <joint name="camera_eef_joint" type="fixed">
+      <origin rpy="0 0 0" xyz="0.05 0.0 0.0"/>
+      <parent link="${prefix}camera_link"/>
+      <child link="${prefix}camera_eef_link"/>
+    </joint>
+    <link name="${prefix}camera_eef_link"/>
+
+  </xacro:macro>
+</robot>

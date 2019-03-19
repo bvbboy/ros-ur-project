@@ -1,0 +1,4 @@
+#std_msgs/Bool open_close
+float64 target_width
+---
+float64 current_width
