@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"
+       name="s2dual_ur10_robot">
+
+  <xacro:property name="pi" value="3.1415926535897931"/>
+  <xacro:arg name="prefix_robot1" default="robot1_"/>
+  <xacro:arg name="prefix_robot2" default="robot2_"/>
+  <xacro:arg name="limited_robot1" default="false"/>
+  <xacro:arg name="limited_robot2" default="false"/>
+
+  <!-- common stuff -->
+  <xacro:include filename="$(find ur_description)/urdf/common.gazebo.xacro"/>
+
+  <!-- robot1 -->
+  <xacro:include filename="$(find ur_description)/urdf/s2robot1_ur10.urdf.xacro"/> <!-- file has been edited because of same variable names in ur5 and ur10 -->
+
+  <!-- robot2 -->
+  <xacro:include filename="$(find ur_description)/urdf/s2robot2_ur10.urdf.xacro"/> <!-- original file has been edited because of same variable names in ur5 and ur10 -->
+
+  <!-- endeffector -->
+  <xacro:include filename="$(find ur_description)/urdf/s2robot1_endeffector.urdf.xacro"/>
+  <xacro:include filename="$(find ur_description)/urdf/s2robot2_endeffector.urdf.xacro"/>
+
+  <!-- table -->
+  <xacro:include filename="$(find ur_description)/urdf/table.urdf.xacro"/>
+
+  <!-- place table -->
+  <xacro:table/>
+
+  <!-- place world reference -->
+<!--
+  <link name="world"/>
+  <joint name="world_joint" type="fixed">
+    <parent link="world"/>
+    <child link ="table_ground"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+-->
+  <!-- place ur10 robot1 -->
+  <xacro:ur10_robot1 prefix="$(arg prefix_robot1)" joint_limited="$(arg limited_robot1)"/>
+  <joint name="$(arg prefix_robot1)platform_mount" type="fixed">
+    <parent link="$(arg prefix_robot1)table_platform"/>
+    <child link ="$(arg prefix_robot1)base_link"/>
+    <origin xyz="0 0 0.68" rpy="0 0 ${pi}" />
+  </joint>
+  
+  <!-- place robot1 endeffector -->
+  <xacro:robot1_endeffector prefix="$(arg prefix_robot1)"/>
+  <joint name="$(arg prefix_robot1)ee_mount" type="fixed">
+    <parent link="$(arg prefix_robot1)ee_link" />
+    <child link = "$(arg prefix_robot1)rg2_body_link" />
+    <!-- <origin rpy="1.5707963268 0 0" xyz="0.01 0 0"/> -->
+    <origin rpy="0 0 0" xyz="0.0 0 0.0"/>
+  </joint>
+<!--
+  <joint name="$(arg prefix_ur5)ee_mount" type="fixed">
+    <parent link="$(arg prefix_ur5)tool0"/>
+    <child link ="$(arg prefix_ur5)ee_frame"/>
+    <origin xyz="0 0 0" rpy="0 0 ${pi}" />
+  </joint>
+-->
+  <!-- place ur10 robot2 -->
+  <xacro:ur10_robot2 prefix="$(arg prefix_robot2)" joint_limited="$(arg limited_robot2)"/>
+  <joint name="$(arg prefix_robot2)platform_mount" type="fixed">
+    <parent link="$(arg prefix_robot2)table_platform"/>
+    <child link ="$(arg prefix_robot2)base_link"/>
+    <origin xyz="0 0 0.68" rpy="0 0 ${pi}" />
+  </joint>
+
+  <!-- place robot2 endeffector -->
+  <xacro:robot2_endeffector prefix="$(arg prefix_robot2)"/>
+  <joint name="$(arg prefix_robot2)ee_mount" type="fixed">
+    <parent link="$(arg prefix_robot2)ee_link" />
+    <child link = "$(arg prefix_robot2)rg2_body_link" />
+    <origin rpy="-1.5707963268 1.5707963268 0" xyz="0.07 0.0 0.0"/>
+  </joint>
+<!--
+  <joint name="$(arg prefix_ur10)ee_mount" type="fixed">
+    <parent link="$(arg prefix_ur10)tool0"/>
+    <child link ="$(arg prefix_ur10)ee_frame"/>
+    <origin xyz="0 0 0" rpy="0 0 ${pi}" />
+  </joint>
+-->
+</robot>
