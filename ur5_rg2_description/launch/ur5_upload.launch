@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-  <arg name="limited" default="false"/>
-  
-  <param unless="$(arg limited)" name="robot_description" command="$(find xacro)/xacro --inorder '$(find ur5_rg2_description)/urdf/ur5_robot_rg2.urdf.xacro'" />
-</launch>

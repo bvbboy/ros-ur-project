@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-  <arg name="limited_robot1" default="false"/>
-  <arg name="limited_robot2" default="false"/>
-  <arg name="prefix_robot1" default="robot1_"/>
-  <arg name="prefix_robot2" default="robot2_"/>
-  
-  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find ur_description)/urdf/s2dual_ur10_robot.urdf.xacro' prefix_robot1:=$(arg prefix_robot1) prefix_robot2:=$(arg prefix_robot2) limited_robot1:=$(arg limited_robot1) limited_robot2:=$(arg limited_robot2)" />
-</launch>
